@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Trading</title>
+  <style>
+    .container {
+        margin: 20px;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Stock Trading</h1>
+
+  <!-- Form to create a new stock -->
+  <h2>Create Stock</h2>
+  <form id="createStockForm">
+    <div class="form-group">
+      <label for="stockName">Name:</label>
+      <input type="text" id="stockName" name="name" required><br>
+    </div>
+    <div class="form-group">
+      <label for="stockPrice">Price:</label>
+      <input type="number" id="stockPrice" name="price" required><br>
+    </div>
+    <div class="form-group">
+      <label for="stockQuantity">Quantity:</label>
+      <input type="number" id="stockQuantity" name="quantity" required><br>
+    </div>
+    <button type="submit">Create Stock</button>
+  </form>
+
+  <!-- Form to create a new customer -->
+  <h2>Create Customer</h2>
+  <form id="createCustomerForm">
+    <div class="form-group">
+      <label for="customerName">Name:</label>
+      <input type="text" id="customerName" name="name" required><br>
+    </div>
+    <button type="submit">Create Customer</button>
+  </form>
+
+  <!-- Form to get all stocks -->
+  <h2>Get All Stocks</h2>
+  <form id="getAllStocksForm">
+    <button type="submit">Get Stocks</button>
+  </form>
+  <div id="stocksList"></div>
+
+  <!-- Form to get all customers -->
+  <h2>Get All Customers</h2>
+  <form id="getAllCustomersForm">
+    <button type="submit">Get Customers</button>
+  </form>
+  <div id="customersList"></div>
+</div>
+
+<script>
+  document.getElementById('createStockForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('stockName').value;
+      const price = document.getElementById('stockPrice').value;
+      const quantity = document.getElementById('stockQuantity').value;
+
+      fetch('/api/stocks', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, price, quantity }),
+      }).then(response => response.json())
+        .then(data => alert('Stock created: ' + JSON.stringify(data)))
+        .catch(error => console.error('Error:', error));
+  });
+
+  document.getElementById('createCustomerForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('customerName').value;
+
+      fetch('/api/customers', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name }),
+      }).then(response => response.json())
+        .then(data => alert('Customer created: ' + JSON.stringify(data)))
+        .catch(error => console.error('Error:', error));
+  });
+
+  document.getElementById('getAllStocksForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      fetch('/api/stocks')
+          .then(response => response.json())
+          .then(data => {
+              const stocksList = document.getElementById('stocksList');
+              stocksList.innerHTML = '';
+              data.forEach(stock => {
+                  const stockItem = document.createElement('div');
+                  stockItem.textContent = `Name: ${stock.name}, Price: ${stock.price}, Quantity: ${stock.quantity}`;
+                  stocksList.appendChild(stockItem);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  });
+
+  document.getElementById('getAllCustomersForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      fetch('/api/customers')
+          .then(response => response.json())
+          .then(data => {
+              const customersList = document.getElementById('customersList');
+              customersList.innerHTML = '';
+              data.forEach(customer => {
+                  const customerItem = document.createElement('div');
+                  customerItem.textContent = `Name: ${customer.name}, Balance: ${customer.balance}, Holdings: ${customer.holdings}`;
+                  customersList.appendChild(customerItem);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  });
+</script>
+</body>
+</html>
