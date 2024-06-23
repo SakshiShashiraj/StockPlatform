@@ -3,6 +3,7 @@ package com.example.StockTrading3.model;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Customer {
 
     private static int lastAssignedC = 0;

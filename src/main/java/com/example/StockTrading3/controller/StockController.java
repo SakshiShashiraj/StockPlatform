@@ -27,7 +27,8 @@ public class StockController {
     }
 
     @PostMapping
-    public Stock createStock(@RequestBody Stock stock) {
+    public Stock createStock(@RequestParam String name, @RequestParam int price, @RequestParam int quantity) {
+        Stock stock = new Stock(name, price, quantity);
         return stockRepository.save(stock);
     }
 

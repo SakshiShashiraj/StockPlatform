@@ -27,7 +27,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
+    public Customer createCustomer(@RequestBody String name) {
+        Customer customer = new Customer (name);
         return customerRepository.save(customer);
     }
 
