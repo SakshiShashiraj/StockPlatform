@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Trading</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Stock Trading</h1>
+
+    <!-- Form to create a new stock -->
+    <h2>Create Stock</h2>
+    <form action="/api/stocks" method="post">
+        <div class="form-group">
+            <label for="stockName">Name:</label>
+            <input type="text" id="stockName" name="name" required><br>
+        </div>
+        <div class="form-group">
+            <label for="stockPrice">Price:</label>
+            <input type="number" id="stockPrice" name="price" required><br>
+        </div>
+        <div class="form-group">
+            <label for="stockQuantity">Quantity:</label>
+            <input type="number" id="stockQuantity" name="quantity" required><br>
+        </div>
+        <button type="submit">Create Stock</button>
+    </form>
+
+    <!-- Form to create a new customer -->
+    <h2>Create Customer</h2>
+    <form action="/api/customers" method="post">
+        <div class="form-group">
+            <label for="customerName">Name:</label>
+            <input type="text" id="customerName" name="name" required><br>
+        </div>
+        <button type="submit">Create Customer</button>
+    </form>
+
+    <!-- Link to get all stocks -->
+    <h2>Get All Stocks</h2>
+    <a href="/api/stocks" target="_blank">Get Stocks</a>
+
+
+    <!-- Link to get all customers -->
+    <h2>Get All Customers</h2>
+    <a href="/api/customers" target="_blank">Get Customers</a>
+
+    <div class="results">
+        <h3>Stock Results</h3>
+        <!-- Include this iframe to show stock results -->
+        <iframe id="stockResults" style="width:100%;height:200px;"></iframe>
+
+        <h3>Customer Results</h3>
+        <!-- Include this iframe to show customer results -->
+        <iframe id="customerResults" style="width:100%;height:200px;"></iframe>
+    </div>
+</div>
+
+<script>
+    // This script reloads the iframes when the links are clicked
+    document.querySelector('a[href="/api/stocks"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('stockResults').src = '/api/stocks';
+    });
+
+    document.querySelector('a[href="/api/customers"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('customerResults').src = '/api/customers';
+    });
+</script>
+</body>
+</html>
