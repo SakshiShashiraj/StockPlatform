@@ -40,10 +40,29 @@
     <h2>Get All Stocks</h2>
     <a href="/api/stocks" target="_blank">Get Stocks</a>
 
-
     <!-- Link to get all customers -->
     <h2>Get All Customers</h2>
     <a href="/api/customers" target="_blank">Get Customers</a>
+
+    <!-- Form to search for a stock by name -->
+    <h2>Search Stock by Name</h2>
+    <form id="searchStockForm">
+        <div class="form-group">
+            <label for="searchStockName">Stock Name:</label>
+            <input type="text" id="searchStockName" name="stockName" required><br>
+        </div>
+        <button type="submit">Search Stock</button>
+    </form>
+
+    <!-- Form to search for a customer by name -->
+    <h2>Search Customer by Name</h2>
+    <form id="searchCustomerForm">
+        <div class="form-group">
+            <label for="searchCustomerName">Customer Name:</label>
+            <input type="text" id="searchCustomerName" name="customerName" required><br>
+        </div>
+        <button type="submit">Search Customer</button>
+    </form>
 
     <div class="results">
         <h3>Stock Results</h3>
@@ -66,6 +85,20 @@
     document.querySelector('a[href="/api/customers"]').addEventListener('click', function(e) {
         e.preventDefault();
         document.getElementById('customerResults').src = '/api/customers';
+    });
+
+    // This script handles the stock search form submission
+    document.getElementById('searchStockForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var stockName = document.getElementById('searchStockName').value;
+        document.getElementById('stockResults').src = '/api/stocks/search?name=' + encodeURIComponent(stockName);
+    });
+
+    // This script handles the customer search form submission
+    document.getElementById('searchCustomerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var customerName = document.getElementById('searchCustomerName').value;
+        document.getElementById('customerResults').src = '/api/customers/search?name=' + encodeURIComponent(customerName);
     });
 </script>
 </body>

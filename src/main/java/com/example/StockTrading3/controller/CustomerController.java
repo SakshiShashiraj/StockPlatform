@@ -26,9 +26,14 @@ public class CustomerController {
         return customer.orElseThrow(() -> new RuntimeException("Customer not found"));
     }
 
+    @GetMapping("/search")
+    public List<Customer> searchCustomersByName(@RequestParam String name) {
+        return customerRepository.findByNameContainingIgnoreCase(name);
+    }
+
     @PostMapping
     public Customer createCustomer(@RequestBody String name) {
-        Customer customer = new Customer (name);
+        Customer customer = new Customer(name);
         return customerRepository.save(customer);
     }
 

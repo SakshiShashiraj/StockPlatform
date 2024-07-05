@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class CustomerRepository {
@@ -27,5 +28,11 @@ public class CustomerRepository {
 
     public void delete(Customer customer) {
         customers.remove(customer);
+    }
+
+    public List<Customer> findByNameContainingIgnoreCase(String name) {
+        return customers.stream()
+                .filter(customer -> customer.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

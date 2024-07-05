@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class StockRepository {
@@ -27,5 +28,11 @@ public class StockRepository {
 
     public void delete(Stock stock) {
         stocks.remove(stock);
+    }
+
+    public List<Stock> findByNameContainingIgnoreCase(String name) {
+        return stocks.stream()
+                .filter(stock -> stock.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

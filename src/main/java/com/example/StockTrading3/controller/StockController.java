@@ -26,6 +26,11 @@ public class StockController {
         return stock.orElseThrow(() -> new RuntimeException("Stock not found"));
     }
 
+    @GetMapping("/search")
+    public List<Stock> searchStocksByName(@RequestParam String name) {
+        return stockRepository.findByNameContainingIgnoreCase(name);
+    }
+
     @PostMapping
     public Stock createStock(@RequestParam String name, @RequestParam int price, @RequestParam int quantity) {
         Stock stock = new Stock(name, price, quantity);
